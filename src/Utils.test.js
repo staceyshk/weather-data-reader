@@ -1,4 +1,4 @@
-import { readCSV, spread, lowestSpreadDay } from './Utils'
+import { getWeatherDataFromCSV, spread, lowestSpreadDay } from './Utils'
 
 test('Calculates temperature spread', () => {
   const dayInfo = { day: 1, minTemp: 3, maxTemp: 6 }
@@ -31,8 +31,8 @@ test('Returns empty array when no days are passed', () => {
 })
 
 test('Reads CSV Lines and returns object for weather data', () => {
-  const testCsvString = 'Day,MxT,MnT,AvT,AvDP,1HrP TPcpn,PDir,AvSp,Dir,MxS,SkyC,MxR,Mn,R AvSLP\n1,88,59,74,53.8,0,280,9.6,270,17,1.6,93,23,1004.5\n2,79,63,71,46.5,0,330,8.7,340,23,3.3,70,28,1004.5'
-  const weatherData = readCSV(testCsvString)
+  const testCsvString = 'Day,MxT,MnT,AvT,AvDP,1HrP TPcpn,PDir,AvSp,Dir,MxS,SkyC,MxR,Mn,R AvSLP\r1,88,59,74,53.8,0,280,9.6,270,17,1.6,93,23,1004.5\r2,79,63,71,46.5,0,330,8.7,340,23,3.3,70,28,1004.5'
+  const weatherData = getWeatherDataFromCSV(testCsvString)
   expect(weatherData).toEqual([{
     day: 1,
     maxTemp: 88,
@@ -45,22 +45,22 @@ test('Reads CSV Lines and returns object for weather data', () => {
 })
 
 test('Throws exception for wrong header format', () => {
-  const testCsvString = 'Day,MxT,MnT,AvT,AvDP,PDir,AvSp,Dir,MxS,SkyC,MxR,Mn,R AvSLP\n1,88,59,74,53.8,0,280,9.6,270,17,1.6,93,23,1004.5\n2,79,63,71,46.5,0,330,8.7,340,23,3.3,70,28,1004.5'
-  expect(() => { readCSV(testCsvString) }).toThrow('Wrong CSV format')
+  const testCsvString = 'Day,MxT,MnT,AvT,AvDP,PDir,AvSp,Dir,MxS,SkyC,MxR,Mn,R AvSLP\r1,88,59,74,53.8,0,280,9.6,270,17,1.6,93,23,1004.5\r2,79,63,71,46.5,0,330,8.7,340,23,3.3,70,28,1004.5'
+  expect(() => { getWeatherDataFromCSV(testCsvString) }).toThrow('Wrong CSV Header format')
 })
 
 test('Throws exception for not enough lines of data', () => {
   const testCsvString = 'Day,MxT,MnT,AvT,AvDP,1HrP TPcpn,PDir,AvSp,Dir,MxS,SkyC,MxR,Mn,R AvSLP'
-  expect(() => { readCSV(testCsvString) }).toThrow('Missing weather data')
+  expect(() => { getWeatherDataFromCSV(testCsvString) }).toThrow('Missing weather data')
 })
 
 test('Throws exception if weather data is not a number on line 1', () => {
-  const testCsvString = 'Day,MxT,MnT,AvT,AvDP,1HrP TPcpn,PDir,AvSp,Dir,MxS,SkyC,MxR,Mn,R AvSLP\n1,S,TT,74,53.8,0,280,9.6,270,17,1.6,93,23,1004.5\n2,79,63,71,46.5,0,330,8.7,340,23,3.3,70,28,1004.5'
-  expect(() => { readCSV(testCsvString) }).toThrow('Invalid weather data on line 1')
+  const testCsvString = 'Day,MxT,MnT,AvT,AvDP,1HrP TPcpn,PDir,AvSp,Dir,MxS,SkyC,MxR,Mn,R AvSLP\r1,S,TT,74,53.8,0,280,9.6,270,17,1.6,93,23,1004.5\r2,79,63,71,46.5,0,330,8.7,340,23,3.3,70,28,1004.5'
+  expect(() => { getWeatherDataFromCSV(testCsvString) }).toThrow('Invalid weather data on line 1')
 })
 
 
 test('Throws exception if weather data is not a number on line 2', () => {
-  const testCsvString = 'Day,MxT,MnT,AvT,AvDP,1HrP TPcpn,PDir,AvSp,Dir,MxS,SkyC,MxR,Mn,R AvSLP\n1,88,59,74,53.8,0,280,9.6,270,17,1.6,93,23,1004.5\n2,TT,63,71,46.5,0,330,8.7,340,23,3.3,70,28,1004.5'
-  expect(() => { readCSV(testCsvString) }).toThrow('Invalid weather data on line 2')
+  const testCsvString = 'Day,MxT,MnT,AvT,AvDP,1HrP TPcpn,PDir,AvSp,Dir,MxS,SkyC,MxR,Mn,R AvSLP\r1,88,59,74,53.8,0,280,9.6,270,17,1.6,93,23,1004.5\r2,TT,63,71,46.5,0,330,8.7,340,23,3.3,70,28,1004.5'
+  expect(() => { getWeatherDataFromCSV(testCsvString) }).toThrow('Invalid weather data on line 2')
 })
