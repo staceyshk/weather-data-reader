@@ -35,12 +35,12 @@ export const lowestSpreadDay = (dayInfoList) => {
  * @param {string} csvString 
  * @returns {array} partial weather data in object format that can be used in
  */
-export const readCSV = (csvString) => {
-  const lines = csvString.split('\n')
+export const getWeatherDataFromCSV = (csvString) => {
+  const lines = csvString.split('\r')
   // Trim the line end off and split into parts
-  const headers = lines[0]
+  const headers = lines[0].replace('\r', '')
   if (headers !== 'Day,MxT,MnT,AvT,AvDP,1HrP TPcpn,PDir,AvSp,Dir,MxS,SkyC,MxR,Mn,R AvSLP') {
-    throw new Error('Wrong CSV format')
+    throw new Error('Wrong CSV Header format')
   }
 
   if (lines.length < 2){
@@ -51,7 +51,7 @@ export const readCSV = (csvString) => {
 
   // Each weather data has day,max,min temps in that order
   for (let i = 1; i < lines.length; i++) {
-    const weatherDataItem = lines[i].replace('\n', '').split(',')
+    const weatherDataItem = lines[i].replace('\r', '').split(',')
     const day = parseInt(weatherDataItem[0])
     const maxTemp = parseInt(weatherDataItem[1])
     const minTemp = parseInt(weatherDataItem[2])
