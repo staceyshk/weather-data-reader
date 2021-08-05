@@ -36,9 +36,9 @@ export const lowestSpreadDay = (dayInfoList) => {
  * @returns {array} partial weather data in object format that can be used in
  */
 export const getWeatherDataFromCSV = (csvString) => {
-  const lines = csvString.split('\r')
-  // Trim the line end off and split into parts
-  const headers = lines[0].replace('\r', '')
+  // This looks for \r\n or \r or \n to account for all types of operating system csvs
+  const lines = csvString.split(/\r\n|\r|\n/)
+  const headers = lines[0]
   if (headers !== 'Day,MxT,MnT,AvT,AvDP,1HrP TPcpn,PDir,AvSp,Dir,MxS,SkyC,MxR,Mn,R AvSLP') {
     throw new Error('Wrong CSV Header format')
   }

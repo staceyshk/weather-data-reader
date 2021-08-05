@@ -10,12 +10,15 @@ function App() {
     event.preventDefault()
     const csv = event.target[0].files[0]
 
+    if (!csv) {
+      setError('Please upload a csv')
+      setTimeout(600, setError(''))
+    }
+
     const reader = new FileReader();
 
     reader.onload = function (e) {
       const text = e.target.result;
-      // const data = csvToArray(text);
-      // document.write(JSON.stringify(data));
       try {
         const weatherData = getWeatherDataFromCSV(text)
         const lowestDays = lowestSpreadDay(weatherData)
@@ -35,14 +38,17 @@ function App() {
         <p>Weather Data Spread Processor</p>
       </header>
       <section>
-        <form onSubmit={handleSubmit}>
+        <form className="csv-upload-form" onSubmit={handleSubmit}>
           <label htmlFor="csvFile">Upload CSV</label>
-          <input type="file" id="csvFile" accept=".csv" />
+          <input className="csv-upload-btn" type="file" id="csvFile" accept=".csv" />
+          <br />
           <br />
           <input type="submit" value="Process Weather Data" />
         </form>
-        {error && <p>{error}</p>}
-        {lowestDayText && <p>The lowest day(s) in this set are: {lowestDayText}</p>}
+        <section className="output">
+          {error && <p className="error">{error}</p>}
+          {lowestDayText && <p className="result">The lowest day(s) in this set are: {lowestDayText}</p>}
+        </section>
       </section>
     </div>
   )
