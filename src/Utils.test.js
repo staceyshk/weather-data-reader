@@ -64,12 +64,36 @@ test('Throws exception if weather data is not a number on line 2', () => {
   expect(() => { getWeatherDataFromCSV(testCsvString) }).toThrow('Invalid weather data on line 2')
 })
 
-test('Works for \n deliimiter', () => {
-  const testCsvString = 'Day,MxT,MnT,AvT,AvDP,1HrP TPcpn,PDir,AvSp,Dir,MxS,SkyC,MxR,Mn,R AvSLP\n1,S,TT,74,53.8,0,280,9.6,270,17,1.6,93,23,1004.5\r2,79,63,71,46.5,0,330,8.7,340,23,3.3,70,28,1004.5'
-  expect(() => { getWeatherDataFromCSV(testCsvString) }).toThrow('Invalid weather data on line 1')
-})
-
 test('Works for \r\n deliimiter', () => {
   const testCsvString = 'Day,MxT,MnT,AvT,AvDP,1HrP TPcpn,PDir,AvSp,Dir,MxS,SkyC,MxR,Mn,R AvSLP\r\n1,S,TT,74,53.8,0,280,9.6,270,17,1.6,93,23,1004.5\r2,79,63,71,46.5,0,330,8.7,340,23,3.3,70,28,1004.5'
   expect(() => { getWeatherDataFromCSV(testCsvString) }).toThrow('Invalid weather data on line 1')
+})
+
+test('Works for \n delimiter', () => {
+  const testCsvString = 'Day,MxT,MnT,AvT,AvDP,1HrP TPcpn,PDir,AvSp,Dir,MxS,SkyC,MxR,Mn,R AvSLP\n1,88,59,74,53.8,0,280,9.6,270,17,1.6,93,23,1004.5\r2,79,63,71,46.5,0,330,8.7,340,23,3.3,70,28,1004.5'
+  const weatherData = getWeatherDataFromCSV(testCsvString)
+  expect(weatherData).toEqual([{
+    day: 1,
+    maxTemp: 88,
+    minTemp: 59
+  },{
+    day: 2,
+    maxTemp: 79,
+    minTemp: 63
+  }])
+})
+
+
+test('Works for \r\n delimiter', () => {
+  const testCsvString = 'Day,MxT,MnT,AvT,AvDP,1HrP TPcpn,PDir,AvSp,Dir,MxS,SkyC,MxR,Mn,R AvSLP\r\n1,88,59,74,53.8,0,280,9.6,270,17,1.6,93,23,1004.5\r2,79,63,71,46.5,0,330,8.7,340,23,3.3,70,28,1004.5'
+  const weatherData = getWeatherDataFromCSV(testCsvString)
+  expect(weatherData).toEqual([{
+    day: 1,
+    maxTemp: 88,
+    minTemp: 59
+  },{
+    day: 2,
+    maxTemp: 79,
+    minTemp: 63
+  }])
 })
