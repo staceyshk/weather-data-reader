@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: left;
   background-color: #282c34;
   min-height: 100vh;
   color: #fff;
@@ -36,4 +36,28 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.csv-upload-form {
+  margin: 40px 20px;
+}
+
+.csv-form-upload {
+  margin: 10px;
+}
+
+.csv-upload-btn {
+  margin-left: 10px;
+}
+
+.output {
+  margin: 20px;
+}
+
+.result {
+  color: green;
+}
+
+.error {
+  color: red;
 }
