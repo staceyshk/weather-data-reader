@@ -1,3 +1,9 @@
+# CSV Weather Reader
+
+I used the create react app to get started on this project hence the list of build commands below. The good parts are to start the app locally to use npm/yarn start and npm/yarn test to run the tests. It should start on http://localhost:3000. I am able to set up projects without the create react app but typically you're not working from a clear repo so I consider it a better real world example.
+
+Thanks!
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

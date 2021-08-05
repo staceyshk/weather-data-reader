@@ -30,8 +30,7 @@ export const lowestSpreadDay = (dayInfoList) => {
 }
 
 /**
- * Reads in csv, trims lines and returns weather data
- * 
+ * Reads in csv, trims lines and returns the high & low temps in an object
  * @param {string} csvString 
  * @returns {array} partial weather data in object format that can be used in
  */
