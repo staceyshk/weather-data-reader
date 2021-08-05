@@ -4,7 +4,7 @@ import './App.css';
 
 function App() {
   const [error, setError] = useState('')
-  const [lowestDayText, setLowestDayText] = useState('')
+  const [lowestDayArray, setLowestDayArray] = useState('')
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -22,7 +22,7 @@ function App() {
       try {
         const weatherData = getWeatherDataFromCSV(text)
         const lowestDays = lowestSpreadDay(weatherData)
-        setLowestDayText(lowestDays.join(' '))
+        setLowestDayArray(lowestDays)
       } catch (error) {
         setError(error)
         setTimeout(600, setError(''))
@@ -47,7 +47,7 @@ function App() {
         </form>
         <section className="output">
           {error && <p className="error">{error}</p>}
-          {lowestDayText && <p className="result">The lowest day(s) in this set are: {lowestDayText}</p>}
+          {lowestDayArray.length > 0 && <p className="result">The lowest day{lowestDayArray.length > 1 ? 's' : ''} in this set: {lowestDayArray.join(', ')}</p>}
         </section>
       </section>
     </div>
