@@ -3,7 +3,7 @@ import { getWeatherDataFromCSV, lowestSpreadDay } from './Utils'
 import './App.css';
 
 function App() {
-  const [error, setError] = useState('')
+  const [errorString, setErrorString] = useState('')
   const [lowestDayArray, setLowestDayArray] = useState('')
 
   const handleSubmit = (event) => {
@@ -11,24 +11,26 @@ function App() {
     const csv = event.target[0].files[0]
 
     if (!csv) {
-      setError('Please upload a csv')
-      setTimeout(600, setError(''))
+      setErrorString('Please upload a csv')
+      setTimeout(() => setErrorString(''), 5000)
+      return
     }
 
     const reader = new FileReader();
 
-    reader.onload = function (e) {
+    reader.onload = (e) => {
       const text = e.target.result;
       try {
         const weatherData = getWeatherDataFromCSV(text)
         const lowestDays = lowestSpreadDay(weatherData)
         setLowestDayArray(lowestDays)
       } catch (error) {
-        setError(error)
-        setTimeout(600, setError(''))
+        setErrorString(error.toString())
+        setTimeout(() => setErrorString(''), 5000)
       }
+      
     }
-  
+    
     reader.readAsText(csv)
   }
 
@@ -46,7 +48,7 @@ function App() {
           <input type="submit" value="Process Weather Data" />
         </form>
         <section className="output">
-          {error && <p className="error">{error}</p>}
+          {errorString && <p className="error">{errorString}</p>}
           {lowestDayArray.length > 0 && <p className="result">The lowest day{lowestDayArray.length > 1 ? 's' : ''} in this set: {lowestDayArray.join(', ')}</p>}
         </section>
       </section>
